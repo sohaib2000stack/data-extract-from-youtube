@@ -2,7 +2,10 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from api.v1 import v1_router
 
-app = FastAPI()
+app = FastAPI(
+    title="scrap videos_via_youtube",
+    version = "1.0",
+)
 
 
 # Set up CORS middleware
