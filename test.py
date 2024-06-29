@@ -1,28 +1,50 @@
-# from selenium import webdriver
-# from selenium.webdriver.common.keys import Keys
-# from selenium.webdriver.chrome.service import Service
-# from webdriver_manager.chrome import ChromeDriverManager
-# import time
-# # Setup the Chrome driver
-# s = Service(ChromeDriverManager().install())
-# driver = webdriver.Chrome(service=s)
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+from transformers import pipeline
+import time
 
-# # Open YouTube
-# driver.get("https://www.youtube.com/")
+def get_video_titles(keyword: str):
+    # Setup the Chrome driver
+    s = Service(ChromeDriverManager().install())
+    driver = webdriver.Chrome(service=s)
 
-# # Find the search box and input the keyword
-# keyword = input('Song')
-# search_box = driver.find_element("name", "search_query")
-# search_box.send_keys(keyword)
-# search_box.submit()
+    try:
+        # Open YouTube
+        driver.get("https://www.youtube.com/")
 
-# # Wait for the search results to load
-# time.sleep(5)
+        # Find the search box and input the keyword
+        search_box = driver.find_element("name", "search_query")
+        search_box.send_keys(keyword)
+        search_box.submit()
 
-# # Find and print the titles of the top 10 videos
-# video_titles = driver.find_elements(by='id', value= "video-title")
-# for i, title in enumerate(video_titles[:10], 1):
-#     print(f"{i}. {title.get_attribute('title')}")
+        # Wait for the search results to load
+        time.sleep(5)
 
-# # Close the browser
-# driver.quit()
+        # Find and print the titles of the top 10 videos
+        video_titles = driver.find_elements(by='id', value="video-title")
+        titles = [title.get_attribute('title') for title in video_titles[:10]]
+
+        # Initialize BERT sentiment analysis pipeline
+        sentiment_analysis = pipeline("sentiment-analysis")
+
+        # Print the titles and analyze sentiment using BERT
+        for title in titles:
+            print(title)
+            sentiment_result = sentiment_analysis(title)[0]
+            print(f'Sentiment: {sentiment_result["label"]} (Confidence: {sentiment_result["score"]:.2f})')
+
+        # Prevent the browser from closing
+        while True:
+            time.sleep(1)
+
+    finally:
+        # Close the browser
+        driver.quit()
+
+# Example usage
+if __name__ == "__main__":
+    keyword = "mahnoor"
+    result = get_video_titles(keyword)
+    print(result)
+

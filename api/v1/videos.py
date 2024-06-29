@@ -4,13 +4,14 @@ from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 import time
 
-router = APIRouter()
+
 # router = APIRouter()
 
 # @router.get("/")
 # async def get_videos():
 #     # Your implementation here
 #     pass
+router = APIRouter()
 @router.get("/videos/")
 def get_videos_v1(keyword: str):
     # Setup the Chrome driver
@@ -26,13 +27,33 @@ def get_videos_v1(keyword: str):
     search_box.submit()
 
     # Wait for the search results to load
-    time.sleep(5)
+    time.sleep(100)
 
     # Find and print the titles of the top 10 videos
     video_titles = driver.find_elements(by='id', value="video-title")
     titles = [title.get_attribute('title') for title in video_titles[:10]]
+    
 
     # Close the browser
-    driver.quit()
+    # driver.quit()
 
     return {"keyword": keyword, "titles": titles}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
