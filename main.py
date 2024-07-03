@@ -6,9 +6,10 @@ app = FastAPI(
     title="scrap videos_via_youtube",
     version = "1.0",
 )
-
-
 # Set up CORS middleware
+# The `origins` list in the FastAPI code snippet is specifying the allowed origins for Cross-Origin
+# Resource Sharing (CORS) requests. CORS is a security feature implemented by web browsers to restrict
+# web pages from making requests to a different domain than the one that served the original page.
 origins = [
     "http://localhost.tiangolo.com",
     "https://localhost.tiangolo.com",

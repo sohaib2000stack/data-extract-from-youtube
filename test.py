@@ -44,7 +44,7 @@ def get_video_titles(keyword: str):
 
 # Example usage
 if __name__ == "__main__":
-    keyword = "mahnoor"
+    keyword = "honey singh"
     result = get_video_titles(keyword)
     print(result)
 
